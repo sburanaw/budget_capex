@@ -89,6 +89,10 @@ def validate_expense_against_budget(args, expense_amount=0):
                     frappe.get_cached_value("Account", args.account, "account_type")
                     == "Fixed Asset"
                 )
+                or (
+                    frappe.get_cached_value("Account", args.account, "account_type")
+                    == "Capital Work in Progress"
+                )
             )
         ):
             doctype = dimension.get("document_type")
