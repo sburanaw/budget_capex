@@ -30,6 +30,7 @@ class CapexBudget(Budget):
 					)
 				elif not (
 					account_details.account_type == "Fixed Asset"
+					or account_details.account_type == "Capital Work in Progress"
 					or account_details.report_type == "Profit and Loss"
 				):
 					frappe.throw(
@@ -171,7 +172,7 @@ class CapexBudget(Budget):
 def account_link_query(doctype, txt, searchfield, start, page_len, filters):
 	"""
 	Link field query that enforces:
-	  company = <company> AND is_group = 0 AND (report_type = 'Profit and Loss' OR account_type = 'Fixed Asset')
+	  company = <company> AND is_group = 0 AND (report_type = 'Profit and Loss' OR account_type = 'Fixed Asset' OR account_type = 'Capital Work in Progress')
 	Also supports user typing via `txt` (matches name or account_name).
 	Returns rows as (value, description).
 	"""
@@ -191,7 +192,7 @@ def account_link_query(doctype, txt, searchfield, start, page_len, filters):
 
 	# Your OR group:
 	where_parts.append(
-		"(report_type = 'Profit and Loss' OR account_type = 'Fixed Asset')"
+		"(report_type = 'Profit and Loss' OR account_type = 'Fixed Asset' OR account_type = 'Capital Work in Progress')"
 	)
 
 	# Let users search by what they type
